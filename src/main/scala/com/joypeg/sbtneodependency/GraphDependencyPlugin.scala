@@ -1,8 +1,7 @@
-package com.joypeg.neo4jdeps
+package com.joypeg.sbtneodependency
 
 import sbt._
 import sbt.Keys.TaskStreams
-import scala.util.Try
 
 /**
  * @author Diego Zambelli Sessona
@@ -12,7 +11,7 @@ trait GraphDependencyPlugin extends Plugin {
 
   def logNeoDependencyHeader(taskName: String, streams: TaskStreams): Unit = {
     val separator: String = (for(i <- 1 to (taskName.size + 8)) yield '=').toList.mkString
-    streams.log.info(s"\nRunning $taskName")
+    streams.log.info("\nRunning " + taskName)
     streams.log.info(separator)
   }
 

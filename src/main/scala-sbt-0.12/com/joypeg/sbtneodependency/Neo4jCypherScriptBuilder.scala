@@ -1,7 +1,6 @@
-package com.joypeg.neo4jdeps
+package com.joypeg.sbtneodependency
 
 import sbt.{IO, ModuleID, File}
-import scala.util.Try
 
 /**
  * @author Diego Zambelli Sessona
@@ -15,7 +14,7 @@ trait Neo4jCypherScriptBuilder extends GraphDependencyPlugin {
                   scalaVer: String,
                   internalOrgs: Seq[String],
                   outFile: File,
-                  companyName: String): Try[Unit] = Try {
+                  companyName: String): Unit = {
 
     IO.write(outFile, getScriptLines(mods, name, org, scalaVer, internalOrgs, companyName).mkString("\n"))
   }
@@ -27,7 +26,7 @@ trait Neo4jCypherScriptBuilder extends GraphDependencyPlugin {
                      internalOrgs: Seq[String],
                      companyName: String): Seq[String] = {
 
-    val rootnode = Seq(s"""MERGE (a: $companyName {name:"${name}", org:"${org}"});""")
+    val rootnode = Seq("MERGE (a: " + companyName + " {name:\"" + name + "\", org:\"" + org +"\"});")
     val nodes = mods.map(createCypherNode(_, internalOrgs, companyName)).sorted
     val relations = mods.map(createCypherRelation(_, name, org, scalaVer)).sorted
     rootnode ++ nodes ++ relations
@@ -35,9 +34,9 @@ trait Neo4jCypherScriptBuilder extends GraphDependencyPlugin {
 
   private[this] def createCypherNode(m: ModuleID, internalOrgs: Seq[String], companyName: String): String = {
     if (internalOrgs.contains(m.organization)){
-      s"""MERGE (a: $companyName {name:"${m.name}", org:"${m.organization}"});"""
+      "MERGE (a: " + companyName + " {name:\"" + m.name + "\", org:\"" + m.organization +"\"});"
     } else {
-      s"""MERGE (a: External {name:"${m.name}", org:"${m.organization}"});"""
+      "MERGE (a: External {name:\"" + m.name + "\", org:\"" + m.organization +"\"});"
     }
   }
 
@@ -47,9 +46,9 @@ trait Neo4jCypherScriptBuilder extends GraphDependencyPlugin {
                                          scalaVer: String): String = m.crossVersion match {
 
     case binary if binary.toString == "Binary" =>
-      s"""MATCH (a {name:"${m.name}", org:"${m.organization}"}), (b {name:"$name", org:"$org"}) CREATE UNIQUE (b)-[r:Depends {version:"${m.revision}", scalaVersion:"${scalaVer}"}]->(a);"""
+      "MATCH (a {name:\"" + m.name + "\", org:\"" + m.organization +"\"}), (b {name:\"" + name + "\", org:\"" + org + "\"}) CREATE UNIQUE (b)-[r:Depends {version:\"" + m.revision + "\", scalaVersion:\"" + scalaVer +"\"}]->(a);"
     case _ =>
-      s"""MATCH (a {name:"${m.name}", org:"${m.organization}"}), (b {name:"$name", org:"$org"}) CREATE UNIQUE (b)-[r:Depends {version:"${m.revision}"}]->(a);"""
+      "MATCH (a {name:\"" + m.name + "\", org:\"" + m.organization +"\"}), (b {name:\"" + name + "\", org:\"" + org + "\"}) CREATE UNIQUE (b)-[r:Depends {version:\"" + m.revision + "\"}]->(a);"
 
   }
 
