@@ -1,4 +1,5 @@
-import com.joypeg.sbtneodependency.{GraphDependencyPlugin, Neo4jCypherScriptBuilder}
+package com.joypeg.sbtneodependency
+
 import sbt._
 import Keys._
 
@@ -11,6 +12,7 @@ object NeoDependencies extends GraphDependencyPlugin with Neo4jCypherScriptBuild
   val neoDepInternalOrgs = SettingKey[Seq[String]]("neoDepInternalOrgs", "Internal organizations")
   val neoDepInternalName = SettingKey[String]("neoDepInternalName", "Name of the company")
   val neoDepNeo4jShell   = SettingKey[String]("neoDepNeo4jShell", "Absolute Path to neo4j-shell installation")
+  val neoDepExtraLabels  = SettingKey[Map[String,String]]("neoDepExtraLabels", "Extra labels for the organization")
   val neoDepCypherOutput = SettingKey[File]("neoDepCypherOutput", "Output file of cypher script")
   val neoDepCypherResult = SettingKey[File]("neoDepCypherResult", "Result of loading the data in neo4j")
 
@@ -20,8 +22,6 @@ object NeoDependencies extends GraphDependencyPlugin with Neo4jCypherScriptBuild
 
 
   override lazy val settings = Seq(
-    neoDepInternalOrgs := Seq.empty,
-    neoDepInternalName := "Company",
     neoDepNeo4jShell   := "/Users/dzsessona/Installed/neo4j-community-2.0.1/bin/neo4j-shell",
     neoDepCypherOutput := (baseDirectory in Compile).value / "neodependencies" / "neodependencies.cyp",
     neoDepCypherResult := (baseDirectory in Compile).value / "neodependencies" / "results.txt",
@@ -38,20 +38,20 @@ object NeoDependencies extends GraphDependencyPlugin with Neo4jCypherScriptBuild
     }
   }
 
-  private[this] def writeNodesAndRelations = (libraryDependencies, scalaBinaryVersion, name, organization, neoDepInternalOrgs, neoDepCypherOutput, neoDepInternalName, streams) map {
-    (libDeps, scalaBinVer, name, organization, internalorgs, outDir, orgname, s) =>
+  private[this] def writeNodesAndRelations = (libraryDependencies, scalaBinaryVersion, name, organization, neoDepInternalOrgs, neoDepCypherOutput, neoDepInternalName, streams, neoDepExtraLabels) map {
+    (libDeps, scalaBinVer, name, organization, internalorgs, outDir, orgname, s, extra) =>
       logNeoDependencyHeader("neoDependenciesWrite", s)
-      writeScript(libDeps, name, organization, scalaBinVer, internalorgs, outDir, orgname).map { res =>
+      writeScript(libDeps, name, organization, scalaBinVer, internalorgs, outDir, orgname, extra).map { res =>
         s.log.info(s"Cypher script wrote in: ${outDir.getAbsolutePath}")
       }.recover {
         case ex => s.log.error(ex.getMessage)
       }.get
   }
 
-  private[this] def showNodesAndRelations = (libraryDependencies, scalaBinaryVersion, name, organization, neoDepInternalOrgs, neoDepInternalName, streams) map {
-    (libDeps, scalaBinVer, name, organization, internalorgs, orgname, s) =>
+  private[this] def showNodesAndRelations = (libraryDependencies, scalaBinaryVersion, name, organization, neoDepInternalOrgs, neoDepInternalName, streams, neoDepExtraLabels) map {
+    (libDeps, scalaBinVer, name, organization, internalorgs, orgname, s, extra) =>
       logNeoDependencyHeader("neoDependenciesShow", s)
-      getScriptLines(libDeps, name, organization, scalaBinVer, internalorgs, orgname).foreach(s.log.info(_))
+      getScriptLines(libDeps, name, organization, scalaBinVer, internalorgs, orgname, extra).foreach(s.log.info(_))
   }
 
 

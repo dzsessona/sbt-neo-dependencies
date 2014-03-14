@@ -1,6 +1,7 @@
 package com.joypeg.sbtneodependency
 
 import sbt.{IO, ModuleID, File}
+import sbt._
 
 /**
  * @author Diego Zambelli Sessona
@@ -14,9 +15,10 @@ trait Neo4jCypherScriptBuilder extends GraphDependencyPlugin {
                   scalaVer: String,
                   internalOrgs: Seq[String],
                   outFile: File,
-                  companyName: String): Unit = {
+                  companyName: String,
+                  extra: Map[String, String]): Unit = {
 
-    IO.write(outFile, getScriptLines(mods, name, org, scalaVer, internalOrgs, companyName).mkString("\n"))
+    IO.write(outFile / "neodependencies" / "neodependencies.cyp", getScriptLines(mods, name, org, scalaVer, internalOrgs, companyName, extra).mkString("\n"))
   }
 
   def getScriptLines(mods: Seq[ModuleID],
@@ -24,17 +26,20 @@ trait Neo4jCypherScriptBuilder extends GraphDependencyPlugin {
                      org: String,
                      scalaVer: String,
                      internalOrgs: Seq[String],
-                     companyName: String): Seq[String] = {
+                     companyName: String,
+                     extra: Map[String, String]): Seq[String] = {
 
-    val rootnode = Seq("MERGE (a: " + companyName + " {name:\"" + name + "\", org:\"" + org +"\"});")
-    val nodes = mods.map(createCypherNode(_, internalOrgs, companyName)).sorted
+    val nameWithTags = makeNameWithExtraLabels(name, companyName, extra)
+    val rootnode = Seq("MERGE (a: " + nameWithTags + " {name:\"" + name + "\", org:\"" + org +"\"});")
+    val nodes = mods.map(createCypherNode(_, internalOrgs, companyName, extra)).sorted
     val relations = mods.map(createCypherRelation(_, name, org, scalaVer)).sorted
     rootnode ++ nodes ++ relations
   }
 
-  private[this] def createCypherNode(m: ModuleID, internalOrgs: Seq[String], companyName: String): String = {
+  private[this] def createCypherNode(m: ModuleID, internalOrgs: Seq[String], companyName: String, extra: Map[String, String]): String = {
     if (internalOrgs.contains(m.organization)){
-      "MERGE (a: " + companyName + " {name:\"" + m.name + "\", org:\"" + m.organization +"\"});"
+      val nameWithTags = makeNameWithExtraLabels(m, companyName, extra)
+      "MERGE (a: " + nameWithTags + " {name:\"" + m.name + "\", org:\"" + m.organization +"\"});"
     } else {
       "MERGE (a: External {name:\"" + m.name + "\", org:\"" + m.organization +"\"});"
     }
@@ -46,10 +51,24 @@ trait Neo4jCypherScriptBuilder extends GraphDependencyPlugin {
                                          scalaVer: String): String = m.crossVersion match {
 
     case binary if binary.toString == "Binary" =>
-      "MATCH (a {name:\"" + m.name + "\", org:\"" + m.organization +"\"}), (b {name:\"" + name + "\", org:\"" + org + "\"}) CREATE UNIQUE (b)-[r:Depends {version:\"" + m.revision + "\", scalaVersion:\"" + scalaVer +"\"}]->(a);"
+      "MATCH (a {name:\"" + m.name + "\", org:\"" + m.organization +"\"}), (b {name:\"" + name + "\", org:\"" + org + "\"}) CREATE UNIQUE (b)-[r:Depends {version:\"" + m.revision + "\", scalaVersion:\"" + getMajorScalaVersion(scalaVer) +"\"}]->(a);"
     case _ =>
       "MATCH (a {name:\"" + m.name + "\", org:\"" + m.organization +"\"}), (b {name:\"" + name + "\", org:\"" + org + "\"}) CREATE UNIQUE (b)-[r:Depends {version:\"" + m.revision + "\"}]->(a);"
 
+  }
+
+  private[this] def getMajorScalaVersion(minor: String): String = {
+    if(minor.startsWith("2.9")) "2.9"
+    else "2.10"
+  }
+
+  private[this] def makeNameWithExtraLabels(m: ModuleID, companyName: String, extra: Map[String, String]): String = {
+    makeNameWithExtraLabels(m.name, companyName, extra)
+  }
+
+  private[this] def makeNameWithExtraLabels(name: String, companyName: String, extra: Map[String, String]): String = {
+    val labelSfound: Seq[String] = extra.filter(x => name.contains(x._1)).map(x => x._2).toSeq
+    (Seq(companyName) ++ labelSfound).mkString("_")
   }
 
 
