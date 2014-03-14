@@ -33,7 +33,7 @@ object NeoDependencies extends GraphDependencyPlugin with Neo4jCypherScriptBuild
   private[this] def loadNodesAndRelations = (neoDepCypherOutput, neoDepCypherResult, streams, neoDepNeo4jShell).map {
     (script, res, s, neoshell) => {
       logNeoDependencyHeader("neoDependencies", s)
-      val ret = (neoshell + " -file " + script.getAbsolutePath + "neodependencies/neodependencies.cyp > " + res.getAbsolutePath + "neodependencies/results.txt").!!
+      val ret = (neoshell + " -file " + script.getAbsolutePath + "/neodependencies/neodependencies.cyp > " + res.getAbsolutePath + "/neodependencies/results.txt").!!
       s.log.info(ret)
     }
   }
