@@ -1,10 +1,14 @@
-import sbtrelease.ReleasePlugin.ReleaseKeys._
+import SonatypeKeys._
+
+sonatypeSettings
 
 sbtPlugin := true
 
 name := "sbt-neo-dependencies"
 
-organization := "github.com.dzsessona"
+organization := "github.com.dzsessona.sbt-neo-dependencies"
+
+profileName := "github.com.dzsessona.sbt-neo-dependencies"
 
 description := "SBT plugin to import dependencies of an sbt project into neo4j"
 
@@ -22,24 +26,34 @@ publishMavenStyle := true
 
 pomIncludeRepository := { _ => false }
 
-licenses := Seq("GPL-2.0" -> url("http://opensource.org/licenses/GPL-2.0"))
+pgpPublicRing := file("/Users/dzsessona/Documents/mykeys/diegopgp.asc")
 
-homepage := Some(url("https://github.com/dzsessona/sbt-neo-dependencies"))
-
-pgpPublicRing := file("/home/me/pgp/pubring.asc")
-
-publishTo <<= version { (v: String) =>
-  val nexus = "https://oss.sonatype.org/"
-  if (v.trim.endsWith("SNAPSHOT"))
-    Some("snapshots" at nexus + "content/repositories/snapshots")
-  else
-    Some("releases"  at nexus + "service/local/staging/deploy/maven2")
-}
+//publishTo <<= version { (v: String) =>
+//  val nexus = "https://oss.sonatype.org/"
+//  if (v.trim.endsWith("SNAPSHOT"))
+//    Some("snapshots" at nexus + "content/repositories/snapshots")
+//  else
+//    Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+//}
 
 pomExtra := (
+  <url>http://github.com/dzsessona/sbt-neo-dependencies</url>
+  <licenses>
+    <license>
+      <name>GPL-2.0"</name>
+      <url>http://opensource.org/licenses/GPL-2.0"</url>
+    </license>
+  </licenses>
   <scm>
-    <url>git@github.com:dzsessona/sbt-neo-dependencies.git</url>
-    <connection>scm:git@github.com:dzsessona/sbt-neo-dependencies.git</connection>
-  </scm>)
-
-releaseSettings
+    <connection>scm:git:github.com/dzsessona/sbt-neo-dependencies.git</connection>
+    <developerConnection>scm:git:git@github.com:dzsessona/sbt-neo-dependencies.git</developerConnection>
+    <url>github.com/dzsessona/sbt-neo-dependencies</url>
+  </scm>
+  <developers>
+    <developer>
+      <id>dzsessona</id>
+      <name>Diego Zambelli Sessona</name>
+      <url>https://www.linkedin.com/in/diegozambellisessona</url>
+    </developer>
+  </developers>
+)
