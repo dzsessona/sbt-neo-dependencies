@@ -6,9 +6,9 @@ sbtPlugin := true
 
 name := "sbt-neo-dependencies"
 
-organization := "github.com.dzsessona.sbt-neo-dependencies"
+organization := "com.github.dzsessona.sbt-neo-dependencies"
 
-profileName := "github.com.dzsessona.sbt-neo-dependencies"
+profileName := "com.github.dzsessona.sbt-neo-dependencies"
 
 description := "SBT plugin to import dependencies of an sbt project into neo4j"
 
