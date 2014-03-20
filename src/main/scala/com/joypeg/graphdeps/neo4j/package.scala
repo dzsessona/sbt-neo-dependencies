@@ -17,7 +17,7 @@ package object neo4j {
     (Seq(company) ++ tagFound).mkString("_")
   }
 
-  def getSysProperty(key: String): Option[String] = {
-    Option(System.getProperty(key))
+  def getEnvProperty(key: String): Option[String] = {
+    Option(System.getenv(key))
   }
 }
