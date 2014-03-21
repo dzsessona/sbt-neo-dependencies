@@ -6,7 +6,7 @@ sbtPlugin := true
 
 name := "sbt-neo-dependencies"
 
-organization := "com.github.dzsessona.sbt-neo-dependencies"
+organization := "com.github.dzsessona"
 
 profileName := "com.github.dzsessona.sbt-neo-dependencies"
 
