@@ -8,7 +8,7 @@ name := "sbt-neo-dependencies"
 
 organization := "com.github.dzsessona"
 
-profileName := "com.github.dzsessona.sbt-neo-dependencies"
+profileName := "com.github.dzsessona"
 
 description := "SBT plugin to import dependencies of an sbt project into neo4j"
 
@@ -40,8 +40,8 @@ pomExtra := (
   <url>http://github.com/dzsessona/sbt-neo-dependencies</url>
   <licenses>
     <license>
-      <name>GPL-2.0"</name>
-      <url>http://opensource.org/licenses/GPL-2.0"</url>
+      <name>Apache License 2.0</name>
+      <url>http://opensource.org/licenses/Apache-2.0</url>
     </license>
   </licenses>
   <scm>
