@@ -18,12 +18,18 @@ trait Neo4jCyperScriptMaker {
   }
 
   def getScriptLines(modules: Seq[ModuleID], thisModule: CurrentModule, neoData: Neo4jData): Seq[String] = {
-
-    val nameWithTags = makeNameFindingTags(thisModule.name, neoData.neo4jInternalName, neoData.neo4jTagsLabels)
-    val rootnode = Seq(s"""MERGE (a: $nameWithTags {name:"${thisModule.name}", org:"${thisModule.org}"});""")
     val nodes = modules.map(createCypherNode(_, neoData)).sorted
     val relations = modules.map(createCypherRelation(_, thisModule)).sorted
-    rootnode ++ nodes ++ relations
+    deleteBeforeCreate(thisModule, neoData) ++ nodes ++ relations
+  }
+
+  private[this] def deleteBeforeCreate(thisModule: CurrentModule, neoData: Neo4jData): Seq[String] = {
+    val nameWithTags = makeNameFindingTags(thisModule.name, neoData.neo4jInternalName, neoData.neo4jTagsLabels)
+    val createRootNode  = s"""MERGE (a: $nameWithTags {name:"${thisModule.name}", org:"${thisModule.org}"});"""
+    val deleteRelations = s"""MATCH (n: $nameWithTags {name:"${thisModule.name}", org:"${thisModule.org}"}) """ +
+                           """OPTIONAL MATCH (n)-[r]-() DELETE r;"""
+    val deleteOrphans = "MATCH a WHERE NOT (a)-[:Depends]-() DELETE a;"
+    Seq(deleteRelations, deleteOrphans, createRootNode)
   }
 
   private[this] def createCypherNode(module: ModuleID, neoData: Neo4jData): String = {

@@ -1,3 +1,5 @@
+MATCH (n: ACOMPANY_Service {name:"company-services", org:"a.company"}) OPTIONAL MATCH (n)-[r]-() DELETE r;
+MATCH a WHERE NOT (a)-[:Depends]-() DELETE a;
 MERGE (a: ACOMPANY_Service {name:"company-services", org:"a.company"});
 MERGE (a: ACOMPANY {name:"company-db", org:"a.company"});
 MERGE (a: External {name:"c3p0", org:"c3p0"});

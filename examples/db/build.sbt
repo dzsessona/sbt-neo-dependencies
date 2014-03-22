@@ -26,7 +26,7 @@ libraryDependencies ++= { Seq(
     "com.typesafe"              % "config"		% "1.0.2",
     "net.liftweb"       	%% "lift-json"		% "2.5.1",
     "postgresql" 		% "postgresql" 		% "9.1-901.jdbc4",
-    "joda-time" 		% "joda-time"		% "2.3"    
+    "joda-time" 		% "joda-time"		% "2.3"
   ) ++ testDependencies
 }
 
