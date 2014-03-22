@@ -8,4 +8,6 @@ case class Neo4jData(neo4jInternalName: String,
                      neo4jInternalOrgs: Seq[String],
                      neo4jTagsLabels: Map[String, String])
 
-case class CurrentModule(name: String, org: String, scalaVersion: String)
+case class CurrentModule(name: String,
+                         org: String,
+                         scalaVersion: String)

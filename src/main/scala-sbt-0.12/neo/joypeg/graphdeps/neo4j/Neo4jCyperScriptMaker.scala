@@ -45,7 +45,7 @@ trait Neo4jCyperScriptMaker {
 
     case binary if binary.toString == "Binary" =>
       ("MATCH (a {name:\"%s\", org:\"%s\"}), (b {name:\"%s\", org:\"%s\"}) " +
-       "CREATE UNIQUE (b)-[r:Depends {version:\"%s\", scalaVersion:\"%s\"}]->(a);").format(
+       "CREATE UNIQUE (b)-[r:Depends {version:\"%s\", onScalaVersion:\"%s\"}]->(a);").format(
         m.name, m.organization, thisModule.name, thisModule.org, m.revision, getMajorScalaVersion(thisModule.scalaVersion)
       )
     case _ =>
@@ -53,10 +53,5 @@ trait Neo4jCyperScriptMaker {
        "CREATE UNIQUE (b)-[r:Depends {version:\"%s\"}]->(a);").format(
         m.name, m.organization, thisModule.name, thisModule.org, m.revision
       )
-  }
-
-  private[this] def getMajorScalaVersion(minor: String): String = {
-    if(minor.startsWith("2.9")) "2.9"
-    else "2.10"
   }
 }

@@ -20,4 +20,9 @@ package object neo4j {
   def getEnvProperty(key: String): Option[String] = {
     Option(System.getenv(key))
   }
+
+  def getMajorScalaVersion(minor: String): String = {
+    if(minor.startsWith("2.9")) "2.9"
+    else "2.10"
+  }
 }
