@@ -1,0 +1,17 @@
+MERGE (a: ACOMPANY {name:"company-db", org:"a.company"});
+MERGE (a: External {name:"c3p0", org:"c3p0"});
+MERGE (a: External {name:"config", org:"com.typesafe"});
+MERGE (a: External {name:"h2", org:"com.h2database"});
+MERGE (a: External {name:"joda-time", org:"joda-time"});
+MERGE (a: External {name:"lift-json", org:"net.liftweb"});
+MERGE (a: External {name:"logback-classic", org:"ch.qos.logback"});
+MERGE (a: External {name:"postgresql", org:"postgresql"});
+MERGE (a: External {name:"scala-library", org:"org.scala-lang"});
+MATCH (a {name:"c3p0", org:"c3p0"}), (b {name:"company-db", org:"a.company"}) CREATE UNIQUE (b)-[r:Depends {version:"0.9.1.2"}]->(a);
+MATCH (a {name:"config", org:"com.typesafe"}), (b {name:"company-db", org:"a.company"}) CREATE UNIQUE (b)-[r:Depends {version:"1.0.2"}]->(a);
+MATCH (a {name:"h2", org:"com.h2database"}), (b {name:"company-db", org:"a.company"}) CREATE UNIQUE (b)-[r:Depends {version:"1.3.166"}]->(a);
+MATCH (a {name:"joda-time", org:"joda-time"}), (b {name:"company-db", org:"a.company"}) CREATE UNIQUE (b)-[r:Depends {version:"2.3"}]->(a);
+MATCH (a {name:"lift-json", org:"net.liftweb"}), (b {name:"company-db", org:"a.company"}) CREATE UNIQUE (b)-[r:Depends {version:"2.5.1", scalaVersion:"2.10"}]->(a);
+MATCH (a {name:"logback-classic", org:"ch.qos.logback"}), (b {name:"company-db", org:"a.company"}) CREATE UNIQUE (b)-[r:Depends {version:"1.0.6"}]->(a);
+MATCH (a {name:"postgresql", org:"postgresql"}), (b {name:"company-db", org:"a.company"}) CREATE UNIQUE (b)-[r:Depends {version:"9.1-901.jdbc4"}]->(a);
+MATCH (a {name:"scala-library", org:"org.scala-lang"}), (b {name:"company-db", org:"a.company"}) CREATE UNIQUE (b)-[r:Depends {version:"2.10.2"}]->(a);
