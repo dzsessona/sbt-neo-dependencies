@@ -46,10 +46,10 @@ trait Neo4jCyperScriptMaker {
 
     case binary if binary.toString == "Binary" =>
       s"""MATCH (a {name:"${m.name}", org:"${m.organization}"}), (b {name:"${thisModule.name}", org:"${thisModule.org}"}) """ +
-      s"""CREATE UNIQUE (b)-[r:Depends {version:"${m.revision}", onScalaVersion:"${getMajorScalaVersion(thisModule.scalaVersion)}"}]->(a);"""
+      s"""CREATE UNIQUE (b)-[r:Depends {version:"${m.revision}", fullDependency:"${m.extra()}", onScalaVersion:"${getMajorScalaVersion(thisModule.scalaVersion)}"}]->(a);"""
     case _ =>
       s"""MATCH (a {name:"${m.name}", org:"${m.organization}"}), (b {name:"${thisModule.name}", org:"${thisModule.org}"}) """ +
-      s"""CREATE UNIQUE (b)-[r:Depends {version:"${m.revision}"}]->(a);"""
+      s"""CREATE UNIQUE (b)-[r:Depends {version:"${m.revision}", fullDependency:"${m.extra()}"}]->(a);"""
   }
 
 }

@@ -45,13 +45,13 @@ trait Neo4jCyperScriptMaker {
 
     case binary if binary.toString == "Binary" =>
       ("MATCH (a {name:\"%s\", org:\"%s\"}), (b {name:\"%s\", org:\"%s\"}) " +
-       "CREATE UNIQUE (b)-[r:Depends {version:\"%s\", onScalaVersion:\"%s\"}]->(a);").format(
-        m.name, m.organization, thisModule.name, thisModule.org, m.revision, getMajorScalaVersion(thisModule.scalaVersion)
+       "CREATE UNIQUE (b)-[r:Depends {version:\"%s\", fullDependency:\"%s\", onScalaVersion:\"%s\"}]->(a);").format(
+        m.name, m.organization, thisModule.name, thisModule.org, m.revision, m.extra(), getMajorScalaVersion(thisModule.scalaVersion)
       )
     case _ =>
       ("MATCH (a {name:\"%s\", org:\"%s\"}), (b {name:\"%s\", org:\"%s\"}) " +
-       "CREATE UNIQUE (b)-[r:Depends {version:\"%s\"}]->(a);").format(
-        m.name, m.organization, thisModule.name, thisModule.org, m.revision
+       "CREATE UNIQUE (b)-[r:Depends {version:\"%s\", fullDependency:\"%s\"}]->(a);").format(
+        m.name, m.organization, thisModule.name, thisModule.org, m.revision, m.extra()
       )
   }
 }
