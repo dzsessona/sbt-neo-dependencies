@@ -8,4 +8,17 @@ SOURCE_BRANCH="master"
 DEST_BRANCH="gh-pages"
 TMP_DIR="tmp"
 
-jekyll serve -s $DIR/jekyll-bootstrap/
+git checkout $SOURCE_BRANCH
+jekyll build -d $TMP_DIR -s $DIR/jekyll-bootstrap/
+git checkout $DEST_BRANCH
+# This will remove previous files, which we may not want (e.g. CNAME)
+# git rm -qr .
+cp -r $TMP_DIR/. .
+# Delete this script from the output
+rm ./$SELF
+rm -r $TMP_DIR
+git add -A
+git commit -m "Published updates"
+# May not want to push straight away
+git push origin gh-pages
+git checkout $SOURCE_BRANCH
