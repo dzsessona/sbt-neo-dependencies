@@ -9,7 +9,7 @@ TMP_DIR="tmp"
 
 #git checkout $SOURCE_BRANCH
 jekyll build -d $DIR/docs/jekyll-site/ -s $DIR/docs/jekyll-bootstrap/
-#git checkout $DEST_BRANCH
+git checkout $DEST_BRANCH
 # This will remove previous files, which we may not want (e.g. CNAME)
 # git rm -qr .
 #cp -r $DIR/jekyll-site/. .
