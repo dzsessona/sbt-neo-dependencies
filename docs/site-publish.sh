@@ -13,6 +13,7 @@ jekyll build -d $DIR/docs/jekyll-site/ -s $DIR/docs/jekyll-bootstrap/
 git checkout $DEST_BRANCH
 # This will remove previous files, which we may not want (e.g. CNAME)
 cp -r $DIR/docs/jekyll-site/. .
+git st
 git add -A
 git commit -m "Published updates"
 # May not want to push straight away
