@@ -1,0 +1,47 @@
+<div class="wrapper">
+  <section>
+    <div id="title">
+      <h1>{{ page.title }}</h1>
+      {% if page.subtitle %}<p>"{{ page.subtitle }}"</p>{% endif %}
+      <br><hr>
+      <span class="credits left">Written by: <a href="{{ author.github }}">{{ site.author.name }}</a></span>
+      <span class="credits right">Last updated: {{ page.date }}</span>
+    </div>
+    {{ content }}
+    <hr>
+    <div style="text-align: center;">
+      <span style="float: left;">
+        {% if page.previous %}
+          <a href="{{ BASE_PATH }}{{ page.previous.url }}" title="{{ page.previous.title }}">&larr; Previous</a>
+        {% else %}
+          <a>&larr; Previous</a>
+        {% endif %}
+      </span>
+      <span>
+        <a href="{{ BASE_PATH }}{{ site.JB.archive_path }}">Archive</a>
+      </span>
+      <span style="float: right;">
+        {% if page.next %}
+          <a href="{{ BASE_PATH }}{{ page.next.url }}" title="{{ page.next.title }}">Next &rarr;</a>
+        {% else %}
+          <a>Next &rarr;</a>
+        {% endif %}
+      </span>
+      </nav>
+    </div>
+    <div id="tags">
+      <br>
+      {% unless page.tags == empty %}
+        Tags: 
+        <ul style="display: inline; padding-left: 10px;">
+        {% assign tags_list = page.tags %}
+        {% include JB/tags_list %}
+        </ul>
+      {% endunless %}
+    </div>
+  </section>
+  <section>
+    {% include JB/comments %}
+  </section>
+</div>
+
