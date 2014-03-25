@@ -1,11 +1,11 @@
 
-http://username.github.io/archive.html
-http://username.github.io/atom.xml
-http://username.github.io/categories.html
-http://username.github.io/index.html
-http://username.github.io/pages.html
-http://username.github.io/rss.xml
-http://username.github.io/sitemap.txt
-http://username.github.io/tags.html
+http://dzsessona.github.io/sbt-neo-dependencies/archive.html
+http://dzsessona.github.io/sbt-neo-dependencies/atom.xml
+http://dzsessona.github.io/sbt-neo-dependencies/categories.html
+http://dzsessona.github.io/sbt-neo-dependencies/index.html
+http://dzsessona.github.io/sbt-neo-dependencies/pages.html
+http://dzsessona.github.io/sbt-neo-dependencies/rss.xml
+http://dzsessona.github.io/sbt-neo-dependencies/sitemap.txt
+http://dzsessona.github.io/sbt-neo-dependencies/tags.html
 
-http://username.github.io/lessons/2011/12/29/jekyll-introduction
+http://dzsessona.github.io/sbt-neo-dependencies/lessons/2011/12/29/jekyll-introduction
