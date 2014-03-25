@@ -7,6 +7,8 @@ SOURCE_BRANCH="master"
 DEST_BRANCH="gh-pages"
 
 #git checkout $SOURCE_BRANCH
+git add docs
+git commit -m "documentation"
 jekyll build -d $DIR/docs/jekyll-site/ -s $DIR/docs/jekyll-bootstrap/
 git checkout $DEST_BRANCH
 # This will remove previous files, which we may not want (e.g. CNAME)
