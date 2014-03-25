@@ -1,15 +1,14 @@
 #!/bin/bash
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+DIR="/Users/dzsessona/Projects/github/sbt-neo-dependencies"
 cd $DIR
 
-SELF=`basename $0`
 SOURCE_BRANCH="master"
 DEST_BRANCH="gh-pages"
 TMP_DIR="tmp"
 
 #git checkout $SOURCE_BRANCH
-jekyll build -d $DIR/jekyll-site/ -s $DIR/jekyll-bootstrap/
+jekyll build -d $DIR/docs/jekyll-site/ -s $DIR/docs/jekyll-bootstrap/
 #git checkout $DEST_BRANCH
 # This will remove previous files, which we may not want (e.g. CNAME)
 # git rm -qr .
