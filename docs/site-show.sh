@@ -8,4 +8,4 @@ SOURCE_BRANCH="master"
 DEST_BRANCH="gh-pages"
 TMP_DIR="tmp"
 
-jekyll serve -s $DIR/jekyll-bootstrap/
+jekyll serve -s $DIR/jekyll-bootstrap/ --config $DIR/jekyll-bootstrap/_config_local.yml
