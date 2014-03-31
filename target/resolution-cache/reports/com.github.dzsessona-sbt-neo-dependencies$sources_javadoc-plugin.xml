@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="com.github.dzsessona"
+		module="sbt-neo-dependencies$sources_javadoc"
+		revision="1.0.0"
+		extra-sbtVersion="0.13"
+		extra-scalaVersion="2.10"
+		conf="plugin"
+		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool"
+		date="20140331153903"/>
+	<dependencies>
+	</dependencies>
+</ivy-report>

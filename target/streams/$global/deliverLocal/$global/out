@@ -1,0 +1,4 @@
+[0m[[0minfo[0m] [0m:: delivering :: com.github.dzsessona#sbt-neo-dependencies;1.0.2 :: 1.0.2 :: release :: Mon Mar 31 19:11:43 IST 2014[0m
+[0m[[0mdebug[0m] [0m	options = status=release pubdate=Mon Mar 31 19:11:43 IST 2014 validate=true resolveDynamicRevisions=true merge=true resolveId=null pubBranch=null[0m
+[0m[[0minfo[0m] [0m	delivering ivy file to /Users/dzsessona/Projects/github/sbt-neo-dependencies/target/scala-2.10/sbt-0.13/ivy-1.0.2.xml[0m
+[0m[[0mdebug[0m] [0m	deliver done (10ms)[0m
