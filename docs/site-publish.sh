@@ -9,7 +9,7 @@ DEST_BRANCH="gh-pages"
 #git checkout $SOURCE_BRANCH
 git add docs
 git commit -m "documentation"
-jekyll build -d $DIR/docs/jekyll-site/ -s $DIR/docs/jekyll-bootstrap/
+jekyll build -d $DIR/docs/jekyll-site/ -s $DIR/docs/jekyll/
 git checkout $DEST_BRANCH
 # This will remove previous files, which we may not want (e.g. CNAME)
 cp -r $DIR/docs/jekyll-site/. .
