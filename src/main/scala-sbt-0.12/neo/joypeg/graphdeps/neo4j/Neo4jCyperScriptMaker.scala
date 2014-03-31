@@ -17,19 +17,21 @@ trait Neo4jCyperScriptMaker {
   }
 
   def getScriptLines(modules: Seq[ModuleID], thisModule: CurrentModule, neoData: Neo4jData): Seq[String] = {
-    val nodes = modules.map(createCypherNode(_, neoData)).sorted
-    val relations = modules.map(createCypherRelation(_, thisModule)).sorted
+    modules.toSet[ModuleID].foreach(a => println(thisModule.name + " " + a))
+    val nodes = modules.toSet[ModuleID].map(createCypherNode(_, neoData))//.sorted
+    val relations = modules.toSet[ModuleID].map(createCypherRelation(_, thisModule))//.sorted
     deleteBeforeCreate(thisModule, neoData) ++ nodes ++ relations
   }
 
   private[this] def deleteBeforeCreate(thisModule: CurrentModule, neoData: Neo4jData): Seq[String] = {
     val nameWithTags = makeNameFindingTags(thisModule.name, neoData.neo4jInternalName, neoData.neo4jTagsLabels)
-    val createRootNode  = "MERGE (a: %s {name:\"%s\", org:\"%s\", crossCompiled:\"%s\"});"
+    val createRootNode  = "\n\n\nMERGE (a: %s {name:\"%s\", org:\"%s\", crossCompiled:\"%s\"});"
       .format(nameWithTags, thisModule.name, thisModule.org, thisModule.crossScala.mkString(", "))
-    val deleteRelations = "MERGE (n: %s {name:\"%s\", org:\"%s\"}}) OPTIONAL MATCH (n)-[r]-() DELETE r;"
+    val deleteRelations = "MATCH (n: %s {name:\"%s\", org:\"%s\"}) OPTIONAL MATCH (n)-[r]->() DELETE r;"
       .format(nameWithTags, thisModule.name, thisModule.org)
     val deleteOrphans = "MATCH a WHERE NOT (a)-[:Depends]-() DELETE a;"
     Seq(deleteRelations, deleteOrphans, createRootNode)
+    //Seq(createRootNode)
   }
 
   private[this] def createCypherNode(module: ModuleID, neoData: Neo4jData): String = {
@@ -42,7 +44,7 @@ trait Neo4jCyperScriptMaker {
     }
   }
 
-  private[this] def createCypherRelation(m: ModuleID, thisModule: CurrentModule): String = m.crossVersion match {
+  private[this] def createCypherRelation(m: ModuleID, thisModule: CurrentModule): String = m.crossVersion match{
 
     case binary if binary.toString == "Binary" =>
       ("MATCH (a {name:\"%s\", org:\"%s\"}), (b {name:\"%s\", org:\"%s\"}) " +
@@ -51,7 +53,7 @@ trait Neo4jCyperScriptMaker {
       )
     case _ =>
       ("MATCH (a {name:\"%s\", org:\"%s\"}), (b {name:\"%s\", org:\"%s\"}) " +
-       "CREATE UNIQUE (b)-[r:Depends {version:\"%s\", declaration:\"%s\"}]->(a);").format(
+       "CREATE (b)-[r:Depends {version:\"%s\", declaration:\"%s\"}]->(a);").format(
         m.name, m.organization, thisModule.name, thisModule.org, m.revision, m.extra()
       )
   }
