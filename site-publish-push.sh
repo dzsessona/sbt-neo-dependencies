@@ -3,18 +3,19 @@
 DIR="/Users/dzsessona/Projects/github/sbt-neo-dependencies"
 cd $DIR
 
-SOURCE_BRANCH="master"
+SOURCE_BRANCH="docs"
 DEST_BRANCH="gh-pages"
 
-#git checkout $SOURCE_BRANCH
-git add docs
+git checkout $SOURCE_BRANCH
+git add -A
 git commit -m "documentation"
-jekyll build -d $DIR/docs/jekyll-site/ -s $DIR/docs/jekyll/ --config $DIR/docs/_config.yml
+jekyll build -d $DIR/jekyll-site/ -s $DIR/jekyll/ --config $DIR/_config.yml
 git checkout $DEST_BRANCH
 # This will remove previous files, which we may not want (e.g. CNAME)
-cp -r $DIR/docs/jekyll-site/. .
+cp -r $DIR/jekyll-site/. .
 git add -A
-git commit -m "Published updates"
+git commit -m "Published updated site"
 # May not want to push straight away
-git push origin gh-pages
+git push origin $DEST_BRANCH
 git checkout $SOURCE_BRANCH
+git push origin $SOURCE_BRANCH
