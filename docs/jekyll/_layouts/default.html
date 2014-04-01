@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+{% include header.html %}
+<body>
+   <div id="wrap">
+    {% include navbar.html active=page.active %}
+    {{ content }}
+     <div id="push"></div>
+   </div><!-- wrap -->
+   {% include footer.html %}
+</body>
+</html>

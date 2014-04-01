@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+{% include header.html %}
+<body>
+   <div id="wrap">
+    {% include navbar.html active=page.active %}
+    <div class="container" style="margin-top:70px;">
+        <div style="text-align: left">
+            {{ content }}
+        </div>
+    </div>
+     <div id="push"></div>
+   </div><!-- wrap -->
+   {% include footer.html %}
+</body>
+</html>
