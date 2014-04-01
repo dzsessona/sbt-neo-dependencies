@@ -1,0 +1,5 @@
+[0m[[0minfo[0m] [0m[0m
+[0m[[0minfo[0m] [0mRunning neo4jLoadDependencies[0m
+[0m[[0minfo[0m] [0m-----------------------------[0m
+[0m[[0minfo[0m] [0m/Users/dzsessona/Installed/neo4j-community-2.0.1/bin/neo4j-shell -file /Users/dzsessona/Projects/github/sbt-neo-dependencies/docs/examples/services/neodependencies/nodesandrelations.cyp > /Users/dzsessona/Projects/github/sbt-neo-dependencies/docs/examples/services/neodependencies/loadresults.txt[0m
+[0m[[0minfo[0m] [0mneo4j-shell process terminated successfully (Exit code:0) [0m
