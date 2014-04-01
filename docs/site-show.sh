@@ -9,4 +9,4 @@ DEST_BRANCH="gh-pages"
 TMP_DIR="tmp"
 
 lessc ~/Installed/bootstrap-3.1.1/less/bootstrap.less > ~/Projects/github/sbt-neo-dependencies/docs/jekyll/assets/css/bootstrap.css
-jekyll serve -s $DIR/jekyll-bootstrap/ --config $DIR/jekyll-bootstrap/_config_local.yml
+jekyll serve -s $DIR/jekyll-bootstrap/ --config $DIR/jekyll/_config.yml
