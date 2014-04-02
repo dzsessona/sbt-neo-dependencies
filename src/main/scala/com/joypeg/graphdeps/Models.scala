@@ -11,4 +11,5 @@ case class Neo4jData(neo4jInternalName: String,
 case class CurrentModule(name: String,
                          org: String,
                          scalaVersion: String,
-                         crossScala: Seq[String])
+                         crossScala: Seq[String],
+                         version: String)

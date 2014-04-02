@@ -4,9 +4,9 @@ import com.joypeg.graphdeps.{CurrentModule, Neo4jData}
 import sbt.{IO, ModuleID, File}
 
 /**
-* @author Diego Zambelli Sessona
-* @since 15/03/2014 00:46
-*/
+ * @author Diego Zambelli Sessona
+ * @since 15/03/2014 00:46
+ */
 trait Neo4jCyperScriptMaker {
 
   def createAndWriteCyperScript(modules: Seq[ModuleID],
@@ -25,13 +25,12 @@ trait Neo4jCyperScriptMaker {
 
   private[this] def deleteBeforeCreate(thisModule: CurrentModule, neoData: Neo4jData): Seq[String] = {
     val nameWithTags = makeNameFindingTags(thisModule.name, neoData.neo4jInternalName, neoData.neo4jTagsLabels)
-    val createRootNode  = "\n\n\nMERGE (a: %s {name:\"%s\", org:\"%s\", crossCompiled:\"%s\"});"
-      .format(nameWithTags, thisModule.name, thisModule.org, thisModule.crossScala.mkString(", "))
+    val createRootNode  = "MERGE (a: %s {name:\"%s\", org:\"%s\"}) ON MATCH SET a.crossCompiled=\"%s\", a.lastVersion=\"%s\" ON CREATE SET a.crossCompiled=\"%s\", a.lastVersion=\"%s\";"
+      .format(nameWithTags, thisModule.name, thisModule.org, thisModule.crossScala.mkString(", "), thisModule.version, thisModule.crossScala.mkString(", "), thisModule.version)
     val deleteRelations = "MATCH (n: %s {name:\"%s\", org:\"%s\"}) OPTIONAL MATCH (n)-[r]->() DELETE r;"
       .format(nameWithTags, thisModule.name, thisModule.org)
     val deleteOrphans = "MATCH a WHERE NOT (a)-[:Depends]-() DELETE a;"
     Seq(deleteRelations, deleteOrphans, createRootNode)
-    //Seq(createRootNode)
   }
 
   private[this] def createCypherNode(module: ModuleID, neoData: Neo4jData): String = {
@@ -48,13 +47,13 @@ trait Neo4jCyperScriptMaker {
 
     case binary if binary.toString == "Binary" =>
       ("MATCH (a {name:\"%s\", org:\"%s\"}), (b {name:\"%s\", org:\"%s\"}) " +
-       "CREATE UNIQUE (b)-[r:Depends {version:\"%s\", declaration:\"%s\", onScalaVersion:\"%s\"}]->(a);").format(
-        m.name, m.organization, thisModule.name, thisModule.org, m.revision, m.extra(), getMajorScalaVersion(thisModule.scalaVersion)
-      )
+        "CREATE UNIQUE (b)-[r:Depends {version:\"%s\", declaration:\"%s\", onScalaVersion:\"%s\"}]->(a);").format(
+          m.name, m.organization, thisModule.name, thisModule.org, m.revision, m.extra(), getMajorScalaVersion(thisModule.scalaVersion)
+        )
     case _ =>
       ("MATCH (a {name:\"%s\", org:\"%s\"}), (b {name:\"%s\", org:\"%s\"}) " +
-       "CREATE (b)-[r:Depends {version:\"%s\", declaration:\"%s\"}]->(a);").format(
-        m.name, m.organization, thisModule.name, thisModule.org, m.revision, m.extra()
-      )
+        "CREATE (b)-[r:Depends {version:\"%s\", declaration:\"%s\"}]->(a);").format(
+          m.name, m.organization, thisModule.name, thisModule.org, m.revision, m.extra()
+        )
   }
 }

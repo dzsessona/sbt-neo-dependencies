@@ -25,9 +25,9 @@ trait Neo4jCyperScriptMaker {
 
   private[this] def deleteBeforeCreate(thisModule: CurrentModule, neoData: Neo4jData): Seq[String] = {
     val nameWithTags = makeNameFindingTags(thisModule.name, neoData.neo4jInternalName, neoData.neo4jTagsLabels)
-    val createRootNode  = s"""MERGE (a: $nameWithTags {name:"${thisModule.name}", org:"${thisModule.org}", crossCompiled:"${thisModule.crossScala.mkString(", ")}"});"""
+    val createRootNode  = s"""MERGE (a: $nameWithTags {name:"${thisModule.name}", org:"${thisModule.org}"}) ON MATCH SET a.crossCompiled="${thisModule.crossScala.mkString(", ")}", a.lastVersion="${thisModule.version}" ON CREATE SET a.crossCompiled="${thisModule.crossScala.mkString(", ")}", a.lastVersion="${thisModule.version}";"""
     val deleteRelations = s"""MATCH (n: $nameWithTags {name:"${thisModule.name}", org:"${thisModule.org}"}) """ +
-                           """OPTIONAL MATCH (n)-[r]-() DELETE r;"""
+      """OPTIONAL MATCH (n)-[r]-() DELETE r;"""
     val deleteOrphans = "MATCH a WHERE NOT (a)-[:Depends]-() DELETE a;"
     Seq(deleteRelations, deleteOrphans, createRootNode)
   }
@@ -46,10 +46,10 @@ trait Neo4jCyperScriptMaker {
 
     case binary if binary.toString == "Binary" =>
       s"""MATCH (a {name:"${m.name}", org:"${m.organization}"}), (b {name:"${thisModule.name}", org:"${thisModule.org}"}) """ +
-      s"""CREATE UNIQUE (b)-[r:Depends {version:"${m.revision}", declaration:"${m.extra()}", onScalaVersion:"${getMajorScalaVersion(thisModule.scalaVersion)}"}]->(a);"""
+        s"""CREATE UNIQUE (b)-[r:Depends {version:"${m.revision}", declaration:"${m.extra()}", onScalaVersion:"${getMajorScalaVersion(thisModule.scalaVersion)}"}]->(a);"""
     case _ =>
       s"""MATCH (a {name:"${m.name}", org:"${m.organization}"}), (b {name:"${thisModule.name}", org:"${thisModule.org}"}) """ +
-      s"""CREATE UNIQUE (b)-[r:Depends {version:"${m.revision}", declaration:"${m.extra()}"}]->(a);"""
+        s"""CREATE UNIQUE (b)-[r:Depends {version:"${m.revision}", declaration:"${m.extra()}"}]->(a);"""
   }
 
 }

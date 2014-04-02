@@ -52,12 +52,12 @@ object Neo4jGraphDependencies extends GraphDependencyPlugin with Neo4jCyperScrip
   }
 
   private[this] def writeNodesAndRelations = (libraryDependencies, name, organization, scalaBinaryVersion,
-                                              crossScalaVersions, neo4jInternalName, neo4jInternalOrgs, neo4jTagsLabels,
-                                              streams, neo4jCypherScript, neo4jLoadResults).map {
-    (modules, name, org, scalaBinVer, crossScala, neoName, neoOrg, neoTags, s, script, results) =>
+    crossScalaVersions, neo4jInternalName, neo4jInternalOrgs, neo4jTagsLabels,
+    streams, neo4jCypherScript, version).map {
+    (modules, name, org, scalaBinVer, crossScala, neoName, neoOrg, neoTags, s, script, version) =>
       logTaskHeader("neo4jWriteDependencies", s)
       createAndWriteCyperScript(
-        modules, CurrentModule(name, org, scalaBinVer, crossScala),
+        modules, CurrentModule(name, org, scalaBinVer, crossScala, version),
         Neo4jData(neoName, neoOrg, neoTags), script
       ).map { res =>
         s.log.info(s"Cypher script wrote in: ${script.getAbsolutePath}")
@@ -67,11 +67,11 @@ object Neo4jGraphDependencies extends GraphDependencyPlugin with Neo4jCyperScrip
   }
 
   private[this] def showNodesAndRelations = (libraryDependencies, name, organization, scalaBinaryVersion,
-                                             crossScalaVersions, neo4jInternalName, neo4jInternalOrgs,
-                                             neo4jTagsLabels, streams).map {
-    (modules, name, org, scalaBinVer, crossScala, neoName, neoOrg, neoTags, s) => {
+    crossScalaVersions, neo4jInternalName, neo4jInternalOrgs,
+    neo4jTagsLabels, streams, version).map {
+    (modules, name, org, scalaBinVer, crossScala, neoName, neoOrg, neoTags, s, version) => {
       logTaskHeader("neo4jShowDependencies", s)
-      getScriptLines(modules, CurrentModule(name, org, scalaBinVer, crossScala), Neo4jData(neoName, neoOrg, neoTags))
+      getScriptLines(modules, CurrentModule(name, org, scalaBinVer, crossScala, version), Neo4jData(neoName, neoOrg, neoTags))
         .foreach(s.log.info(_))
     }
   }

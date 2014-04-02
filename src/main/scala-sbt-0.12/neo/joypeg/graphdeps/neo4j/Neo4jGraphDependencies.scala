@@ -5,9 +5,9 @@ import sbt._
 import Keys._
 
 /**
-* @author Diego Zambelli Sessona
-* @since 14/03/2014 23:48
-*/
+ * @author Diego Zambelli Sessona
+ * @since 14/03/2014 23:48
+ */
 object Neo4jGraphDependencies extends GraphDependencyPlugin with Neo4jCyperScriptMaker {
 
   val neo4jInternalName = SettingKey[String]("neo4jInternalName", "Name of the company")
@@ -35,20 +35,20 @@ object Neo4jGraphDependencies extends GraphDependencyPlugin with Neo4jCyperScrip
     (cypher, results, s) => {
       logTaskHeader("neo4jLoadDependencies", s)
       try { getEnvProperty("NEO4J_HOME") match {
-          case None =>
-            s.log.error("Cannot find NEO4J_HOME defined in your environment")
-          case Some(neosh) =>
-            val scriptOutput = cypher / "neodependencies" / "nodesandrelations.cyp"
-            val scriptResult = results / "neodependencies" / "loadresults.txt"
-            val command = "%s/bin/neo4j-shell -file %s > %s".format(
-              neosh, scriptOutput.getAbsolutePath, results.getAbsolutePath
-            )
-            s.log.info(command)
-            command.! match {
-              case 0 => s.log.info("neo4j-shell process terminated successfully (Exit code:0) ")
-              case c:Int => s.log.info("neo4j-shell process terminated with Exit code: " + c)
-            }
-        }
+        case None =>
+          s.log.error("Cannot find NEO4J_HOME defined in your environment")
+        case Some(neosh) =>
+          val scriptOutput = cypher / "neodependencies" / "nodesandrelations.cyp"
+          val scriptResult = results / "neodependencies" / "loadresults.txt"
+          val command = "%s/bin/neo4j-shell -file %s > %s".format(
+            neosh, scriptOutput.getAbsolutePath, scriptResult.getAbsolutePath
+          )
+          s.log.info(command)
+          command.! match {
+            case 0 => s.log.info("neo4j-shell process terminated successfully (Exit code:0) ")
+            case c:Int => s.log.info("neo4j-shell process terminated with Exit code: " + c)
+          }
+      }
       } catch {
         case ex => s.log.error(ex.getMessage)
       }
@@ -56,27 +56,27 @@ object Neo4jGraphDependencies extends GraphDependencyPlugin with Neo4jCyperScrip
   }
 
   private[this] def writeNodesAndRelations = (libraryDependencies, name, organization, scalaBinaryVersion,
-                                              crossScalaVersions, neo4jInternalName, neo4jInternalOrgs, neo4jTagsLabels,
-                                              streams, neo4jCypherScript, neo4jLoadResults).map {
-    (modules, name, org, scalaBinVer, crossScala, neoName, neoOrg, neoTags, s, script, results) =>
+    crossScalaVersions, neo4jInternalName, neo4jInternalOrgs, neo4jTagsLabels,
+    streams, neo4jCypherScript,  version).map {
+    (modules, name, org, scalaBinVer, crossScala, neoName, neoOrg, neoTags, s, script, version) =>
       logTaskHeader("neo4jWriteDependencies", s)
       val scriptoutput = script / "neodependencies" / "nodesandrelations.cyp"
       try { createAndWriteCyperScript(
-          modules, CurrentModule(name, org, scalaBinVer, crossScala),
-          Neo4jData(neoName, neoOrg, neoTags), scriptoutput
-        )
-        s.log.info("Cypher script wrote in: %s".format(scriptoutput.getAbsolutePath))
+        modules, CurrentModule(name, org, scalaBinVer, crossScala, version),
+        Neo4jData(neoName, neoOrg, neoTags), scriptoutput
+      )
+      s.log.info("Cypher script wrote in: %s".format(scriptoutput.getAbsolutePath))
       } catch {
         case ex => s.log.error(ex.getMessage)
       }
   }
 
   private[this] def showNodesAndRelations = (libraryDependencies, name, organization, scalaBinaryVersion,
-                                             crossScalaVersions, neo4jInternalName, neo4jInternalOrgs,
-                                             neo4jTagsLabels, streams).map {
-    (modules, name, org, scalaBinVer, crossScala, neoName, neoOrg, neoTags, s) => {
+    crossScalaVersions, neo4jInternalName, neo4jInternalOrgs,
+    neo4jTagsLabels, streams, version).map {
+    (modules, name, org, scalaBinVer, crossScala, neoName, neoOrg, neoTags, s, version) => {
       logTaskHeader("neo4jShowDependencies", s)
-      getScriptLines(modules, CurrentModule(name, org, scalaBinVer, crossScala), Neo4jData(neoName, neoOrg, neoTags))
+      getScriptLines(modules, CurrentModule(name, org, scalaBinVer, crossScala, version), Neo4jData(neoName, neoOrg, neoTags))
         .foreach(s.log.info(_))
     }
   }
