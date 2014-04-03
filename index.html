@@ -33,7 +33,7 @@
             <li class="dropdown ">
                <a href="http://dzsessona.github.io/sbt-neo-dependencies/manual" class="dropdown-toggle" data-toggle="dropdown">Manual <b class="caret"></b></a>
                <ul class="dropdown-menu">
-                  <li><a href="#">Action</a></li>
+                  <li><a href="http://dzsessona.github.io/sbt-neo-dependencies/manual/#installation">Installation</a></li>
                   <li><a href="#">Another action</a></li>
                   <li><a href="#">Something else here</a></li>
                   <li class="divider"></li>
@@ -65,11 +65,11 @@
                 <h4 class="text-left" style="color: #999">NOSQL movement is not only about key value stores... so why not taking advantage of a graph database like neo4j to show and query the dependencies of your project?</h4>
                 <h4 class="text-left" style="color: #999">Or even better, all the dependencies of all the projects of your organization?</h4>
                 <h5 style="color: #CCC"> If you are using sbt...</h5><br/>
-                <a href="#"><button type="button" class="btn btn-primary btn-lg"><i class="fa fa-repeat fa-spin"></i> Installation</button></a>
-                <a href="#"><button type="button" class="btn btn-primary btn-lg">View Example</button></a>
+                <a href="http://dzsessona.github.io/sbt-neo-dependencies/manual/#installation"><button type="button" class="btn btn-primary btn-lg"><i class="fa fa-repeat fa-spin"></i> Installation</button></a>
+                <a href="http://dzsessona.github.io/sbt-neo-dependencies/manual/#example"><button type="button" class="btn btn-primary btn-lg">View Example</button></a>
             </div>
             <div class="col-sm-6">
-                <img src="http://dzsessona.github.io/sbt-neo-dependencies/assets/img/neodesktop1.png" class="img-responsive animated fadeInDown" style="margin-top: 30px;" alt="">
+                <img src="http://dzsessona.github.io/sbt-neo-dependencies/assets/img/neodesktop1.png" class="img-responsive animated fadeInDown" style="margin-top: 30px; display: initial;" alt="">
             </div>
         </div>
     </div>
@@ -82,13 +82,14 @@
             <p> <!--class="text-left"-->
                 groupID: <code>com.github.dzsessona</code> </br>
                 artifactID: <code>sbt-neo-dependencies</code> </br>
-                revision: <code>1.0.0</code>
+                revision: <code>1.1.0</code>
             </p>
             <p><a class="btn btn-default" href="http://dzsessona.github.io/sbt-neo-dependencies/versions" role="button">View all versions »</a></p>
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-4">
             <h2>Last change</h2>
-            <p>If a project is cross compiled for multiple versions of scala, the plugin will add the list of versions as a property of the node.</p>
+            <p>Add more properties (as the cross compiled version) when loading a project. If the node exists already (maybe it is a dependency of another project), the same node will be matched, adding the properties. 
+This is done using the cypher syntax MERGE - ON CREATE - ON MATCH </p>
             <p><a class="btn btn-default" href="https://github.com/dzsessona/sbt-neo-dependencies/issues?state=closed" role="button">View all changes »</a></p>
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-4">
