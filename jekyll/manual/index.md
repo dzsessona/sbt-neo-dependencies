@@ -13,3 +13,5 @@ the DefaultMavenRepository is the main Maven repository at http://repo1.maven.or
 Therefore you don't need to add any resolvers to your build definition; you can simply add the plugin the *project/plugins.sbt* file as follow: 
 
 ``` addSbtPlugin("com.github.dzsessona" %% "sbt-neo-dependencies" % "version")  ```
+
+Replace **version** with the last version of this plugin. All versions for this plugin can be found [here]({{ site.url }}/versions).
