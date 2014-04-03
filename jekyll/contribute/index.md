@@ -1,7 +1,7 @@
 ---
 layout: nothome
 active: contribute
-title: Sbt Neo Dependencies
+title: Sbt Neo Dependencies - contribute
 ---
 
 ## Write code
