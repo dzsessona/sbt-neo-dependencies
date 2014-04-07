@@ -159,8 +159,13 @@ object BuildSettings {
   ) ++ neoSettings
 }
 </code></pre></div>
-<p>Note that if your build.scala contains multiple projects you can add the settings to apply to each of the subproject. Because of the way that the plugin loads the dependencies into the graph database though, 
-I will suggest you to run the plugin by selecting the project and call the task, rather than calling the task on the root project. </p>
+<p>Note that if your build.scala contains multiple projects the previous snippet to apply to each of the subproject. 
+Because of the way that the plugin loads the dependencies into the graph database though, 
+I will suggest you to run the plugin for multiple project definition not from the root project, 
+but by selecting the project and call the task, rather than calling the task on the root project. </p>
+
+<p>For example, for the <a href="http://github.com/dzsessona/sbt-neo-dependencies/blob/docs/examples/svc-user/project/Build.scala">full Build.scala</a> definition of the svc-user example, 
+that contains the subproject core, service and client, I load the dependencies with the following <a href="http://github.com/dzsessona/sbt-neo-dependencies/blob/docs/examples/load_acompany.sh">script</a></p>
 
 <p>Look up the section <strong>Settings</strong> for more information about what each of this setting represent.</p>
 

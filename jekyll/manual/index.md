@@ -68,12 +68,10 @@ Because of the way that the plugin loads the dependencies into the graph databas
 I will suggest you to run the plugin for multiple project definition not from the root project, 
 but by selecting the project and call the task, rather than calling the task on the root project. 
 
-For example, for the [full Build.scala]({{ site.url }}/versions) definition of the svc-user example, I load the 
-dependency of core, client and server as follow: 
+For example, for the [full Build.scala](http://github.com/dzsessona/sbt-neo-dependencies/blob/docs/examples/svc-user/project/Build.scala) definition of the svc-user example, 
+that contains the subproject core, service and client, I load the dependencies with the following [script](http://github.com/dzsessona/sbt-neo-dependencies/blob/docs/examples/load_acompany.sh)
 
-``````
-
-Look up the section **Settings** for more information about what each of this setting represent.
+Look up the **Settings** section for more information about what each of this setting.
 
 <h2 id="tasks">Tasks</h2>
 
