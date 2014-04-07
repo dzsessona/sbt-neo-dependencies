@@ -80,12 +80,13 @@
                <a href="/manual" class="dropdown-toggle" data-toggle="dropdown">Manual <b class="caret"></b></a>
                <ul class="dropdown-menu">
                   <li><a href="/manual/#installation">Installation</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
+                  <li><a href="/manual/#tasks">Tasks</a></li>
+                  <li><a href="/manual/#settings">Settings</a></li>
                   <li class="divider"></li>
-                  <li class="dropdown-header">Nav header</li>
+                  <li class="dropdown-header">Usage</li>
                   <li><a href="#">Separated link</a></li>
                   <li><a href="#">One more separated link</a></li>
+                  <li class="dropdown-header">Example</li>
                </ul>
             </li>
             <li ><a href="/contribute">Contribute</a></li>
@@ -116,11 +117,96 @@ Therefore you don&#39;t need to add any resolvers to your build definition; you 
 
 <p><code>addSbtPlugin(&quot;com.github.dzsessona&quot; %% &quot;sbt-neo-dependencies&quot; % &quot;version&quot;)</code></p>
 
+<p>Replace <strong>version</strong> with the last version of this plugin. All versions for this plugin can be found <a href="/versions">here</a>. In order to enable
+the tasks of this plugin in your project you also have to modify your build definition; An sbt build definition can contain files ending in .sbt, located in the base directory, 
+and files ending in .scala, located in the project/ subdirectory the base directory. In case you are confused about the difference between build.sbt and Build.scala read <a href="http://www.scala-sbt.org/release/docs/Getting-Started/Full-Def.html">this</a>.</p>
+
+<p><h3 id="buildsbt" style="margin-top: 20px;">build.sbt</h4></p>
+
+<p>In your build definition you need to import the settings defined in the plugin, and override the settings keys for <strong>neo4jInternalName, neo4jInternalOrgs, neo4jTagsLabels</strong> as in this example snippet:</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">import com.joypeg.graphdeps.neo4j.Neo4jGraphDependencies
+
+Neo4jGraphDependencies.neo4jDepsSetting
+
+neo4jInternalName := &quot;ACOMPANY&quot;
+
+neo4jInternalOrgs := Seq(&quot;a.company&quot;)
+
+neo4jTagsLabels  := Map(&quot;service&quot; -&gt; &quot;Service&quot;)
+</code></pre></div>
+<p>Look up the section <strong>Settings</strong> for more information about what each of this setting represent.</p>
+
+<p><h3 id="buildscala" style="margin-top: 20px;">project/Build.scala</h4></p>
+
+<p>If you have a full definition (maybe with multiple subproject) you can import the settings defined 
+in the plugin (and override the settings keys for <strong>neo4jInternalName, neo4jInternalOrgs, neo4jTagsLabels</strong>) for all the
+subproject as follow:</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">import sbt._
+import Keys._
+import com.joypeg.graphdeps.neo4j.Neo4jGraphDependencies
+import com.joypeg.graphdeps.neo4j.Neo4jGraphDependencies._
+
+object BuildSettings {
+
+  val neoSettings = neo4jDepsSetting ++ Seq(
+    neo4jInternalName := &quot;ACOMPANY&quot;,
+    neo4jInternalOrgs := Seq(&quot;a.company&quot;),
+    neo4jTagsLabels   := Map(&quot;client&quot; -&gt; &quot;Service_Client&quot;, &quot;web&quot; -&gt; &quot;Web&quot;)
+  )
+
+  val buildSettings = Defaults.defaultSettings ++ Seq(
+    ...
+  ) ++ neoSettings
+}
+</code></pre></div>
+<p>Note that if your build.scala contains multiple projects you can add the settings to apply to each of the subproject. Because of the way that the plugin loads the dependencies into the graph database though, 
+I will suggest you to run the plugin by selecting the project and call the task, rather than calling the task on the root project. </p>
+
+<p>Look up the section <strong>Settings</strong> for more information about what each of this setting represent.</p>
+
+<h2 id="tasks">Tasks</h2>
+
+<p>Installing the plugin will add to your project 3 new tasks, <strong>neo4jShowDependencies</strong> , <strong>neo4jWriteDependencies</strong> and <strong>neo4jLoadDependencies</strong> . By the way, you can see all the 
+tasks available in the sbt console by running </p>
+
+<p><code>sbt&gt; tasks -V</code></p>
+
+<p><img src="/assets/img/taskv.png" width="600"></p>
+
+<h4>neo4jShowDependencies</h4>
+
+<p>This task will print on screen the cypher statements that would be used to create the nodes (projects) and relations (dependencies) in the neo4j database. 
+This task is expecially useful for development, but also is a good way to explore how the graph would be generated for a particular project.  </p>
+
+<h4>neo4jWriteDependencies</h4>
+
+<p>This task will print on file the cypher statements that would be used to create the nodes (projects) and relations (dependencies) in the neo4j database. 
+Calling this task just create the file, the location of which is defined in the plugin itself as:</p>
+
+<p><code>neo4jCypherScript := (baseDirectory in Compile).value / &quot;neodependencies&quot; / &quot;nodesandrelations.cyp&quot;</code></p>
+
+<p>Also note that the task to load the dependencies <strong>dependsOn</strong> this task. </p>
+
+<h4>neo4jLoadDependencies</h4>
+
+<p>This is the task that creates the nodes (projects) and relations (dependencies) in the neo4j database. 
+All it does is calling the neo4jWriteDependencies and than passing that file to the neo4j console. Because of that it assumes that </p>
+
+<ol>
+<li>Your neo4j server is running</li>
+<li>You have set a variable <strong>NEO4J_HOME</strong> in your environment</li>
+</ol>
+
+<p>If any of these requirements is not satisfied you will get a message of error and you won&#39;t be able to load your dependencies in the graph. </p>
+
+<h2 id="settings">Settings</h2>
+
             </div>
             <div id="scrollspy" class="col-md-3">
                 <ul class="nav nav-tabs nav-stacked affix-top" data-spy="affix">
                     <li><a class="spy" href="#installation">Installation</a></li>
-                    <!--li><a class="spy" href="#second">Second</a></li-->
+                    <li><a class="spy" href="#tasks">Tasks</a></li>
+                    <li><a class="spy" href="#settings">Settings</a></li>
                 </ul>
             </div>
         </div>
