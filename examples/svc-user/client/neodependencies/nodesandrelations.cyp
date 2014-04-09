@@ -1,6 +1,6 @@
-MATCH (n: ACOMPANY_Service_Client {name:"svc-user-client", org:"a.company"}) OPTIONAL MATCH (n)-[r]-() DELETE r;
+MATCH (n: ACOMPANY_Client {name:"svc-user-client", org:"a.company"}) OPTIONAL MATCH (n)-[r]-() DELETE r;
 MATCH a WHERE NOT (a)-[:Depends]-() DELETE a;
-MERGE (a: ACOMPANY_Service_Client {name:"svc-user-client", org:"a.company"}) ON MATCH SET a.crossCompiled="2.9.2, 2.10.2", a.lastVersion="1.0" ON CREATE SET a.crossCompiled="2.9.2, 2.10.2", a.lastVersion="1.0";
+MERGE (a: ACOMPANY_Client {name:"svc-user-client", org:"a.company"}) ON MATCH SET a.crossCompiled="2.9.2, 2.10.2", a.lastVersion="1.0" ON CREATE SET a.crossCompiled="2.9.2, 2.10.2", a.lastVersion="1.0";
 MERGE (a: External {name:"c3p0", org:"c3p0"});
 MERGE (a: External {name:"lift-common", org:"net.liftweb"});
 MERGE (a: External {name:"lift-json", org:"net.liftweb"});
