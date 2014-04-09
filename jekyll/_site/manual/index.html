@@ -167,7 +167,7 @@ but by selecting the project and call the task, rather than calling the task on 
 <p>For example, for the <a href="http://github.com/dzsessona/sbt-neo-dependencies/blob/docs/examples/svc-user/project/Build.scala">full Build.scala</a> definition of the svc-user example, 
 that contains the subproject core, service and client, I load the dependencies with the following <a href="http://github.com/dzsessona/sbt-neo-dependencies/blob/docs/examples/load_acompany.sh">script</a></p>
 
-<p>Look up the section <strong>Settings</strong> for more information about what each of this setting represent.</p>
+<p>Look up the <strong>Settings</strong> section for more information about what each of this setting.</p>
 
 <h2 id="tasks">Tasks</h2>
 
@@ -205,6 +205,20 @@ All it does is calling the neo4jWriteDependencies and than passing that file to 
 <p>If any of these requirements is not satisfied you will get a message of error and you won&#39;t be able to load your dependencies in the graph. </p>
 
 <h2 id="settings">Settings</h2>
+
+<p>The plugin defines some settings that allow you to customize how your dependency graph will look like, these settings are:</p>
+
+<ol>
+<li><strong>neo4jInternalName</strong> the name of your company</li>
+<li><strong>neo4jInternalOrgs</strong> a list of packages names used to distinguish between internal and external dependency</li>
+<li><strong>neo4jTagsLabels</strong> a map of tags to apply to the internal dependencies</li>
+</ol>
+
+<h4>neo4jInternalName</h4>
+
+<h4>neo4jInternalOrgs</h4>
+
+<h4>neo4jTagsLabels</h4>
 
             </div>
             <div id="scrollspy" class="col-md-3">

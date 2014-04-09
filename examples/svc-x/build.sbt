@@ -2,7 +2,7 @@ import com.joypeg.graphdeps.neo4j.Neo4jGraphDependencies
 
 Neo4jGraphDependencies.neo4jDepsSetting
 
-name := "svc-x"
+name := "svc-x-web"
 
 organization := "a.company"
 
@@ -23,4 +23,4 @@ neo4jInternalName := "ACOMPANY"
 
 neo4jInternalOrgs := Seq("a.company")
 
-neo4jTagsLabels  := Map("client" -> "Service_Client", "web" -> "Web")
+neo4jTagsLabels  := Map("client" -> "Client", "web" -> "Web")

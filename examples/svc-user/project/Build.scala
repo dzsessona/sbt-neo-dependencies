@@ -8,7 +8,7 @@ object BuildSettings {
   val neoSettings = neo4jDepsSetting ++ Seq(
     neo4jInternalName := "ACOMPANY",
     neo4jInternalOrgs := Seq("a.company"),
-    neo4jTagsLabels   := Map("client" -> "Service_Client", "web" -> "Web")
+    neo4jTagsLabels   := Map("client" -> "Client", "web" -> "Web")
   )
 
   val commonDependencies = Seq(
@@ -43,13 +43,22 @@ object MyBuild extends Build {
   lazy val server: Project = Project(
     "svc-user-server",
     file("server"),
-    settings = buildSettings
+    settings = buildSettings ++ (libraryDependencies ++= Seq(
+        "com.typesafe"        % "config"     % "1.0.2",
+        "com.typesafe.slick" %% "slick"	     % "2.0.0",
+        "net.liftweb"        %% "lift-json"  % "2.5.1",
+        "postgresql"          % "postgresql" % "9.1-901.jdbc4"
+    ))
   ).dependsOn(core)
 
   lazy val client: Project = Project(
     "svc-user-client",
     file("client"),
-    settings = buildSettings
+    settings = buildSettings ++ (libraryDependencies ++= Seq(
+        "net.liftweb" %% "lift-json"   % "2.5.1",
+        "net.liftweb" %% "lift-common" % "2.5.1",
+        "net.liftweb" %% "lift-util"   % "2.5.1"
+    ))
   ).dependsOn(core)
 
 }

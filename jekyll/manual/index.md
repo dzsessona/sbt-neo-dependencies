@@ -104,3 +104,19 @@ All it does is calling the neo4jWriteDependencies and than passing that file to 
 If any of these requirements is not satisfied you will get a message of error and you won't be able to load your dependencies in the graph. 
 
 <h2 id="settings">Settings</h2>
+
+The plugin defines some settings that allow you to customize how your dependency graph will look like, these settings are:
+
+1. **neo4jInternalName** the name of your company
+2. **neo4jInternalOrgs** a list of packages names used to distinguish between internal and external dependencies
+3. **neo4jTagsLabels** a map of tags to apply to the internal dependencies
+
+We will look at each of these settings in details 
+
+#### neo4jInternalName
+
+
+
+#### neo4jInternalOrgs
+
+#### neo4jTagsLabels
