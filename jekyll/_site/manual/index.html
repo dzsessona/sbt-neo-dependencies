@@ -178,12 +178,12 @@ tasks available in the sbt console by running </p>
 
 <p><img src="/assets/img/taskv.png" width="600"></p>
 
-<h4>neo4jShowDependencies</h4>
+<h3>neo4jShowDependencies</h3>
 
 <p>This task will print on screen the cypher statements that would be used to create the nodes (projects) and relations (dependencies) in the neo4j database. 
 This task is expecially useful for development, but also is a good way to explore how the graph would be generated for a particular project.  </p>
 
-<h4>neo4jWriteDependencies</h4>
+<h3>neo4jWriteDependencies</h3>
 
 <p>This task will print on file the cypher statements that would be used to create the nodes (projects) and relations (dependencies) in the neo4j database. 
 Calling this task just create the file, the location of which is defined in the plugin itself as:</p>
@@ -192,7 +192,7 @@ Calling this task just create the file, the location of which is defined in the 
 
 <p>Also note that the task to load the dependencies <strong>dependsOn</strong> this task. </p>
 
-<h4>neo4jLoadDependencies</h4>
+<h3>neo4jLoadDependencies</h3>
 
 <p>This is the task that creates the nodes (projects) and relations (dependencies) in the neo4j database. 
 All it does is calling the neo4jWriteDependencies and than passing that file to the neo4j console. Because of that it assumes that </p>
@@ -222,7 +222,7 @@ can be found n these links: <a href="https://github.com/dzsessona/sbt-neo-depend
 
 <p><img src="/assets/img/reference.png" width="700"></p>
 
-<h4>neo4jInternalName</h4>
+<h3>neo4jInternalName</h3>
 
 <p>As you can see from the picture the dependencies are divided in Internal and External. Overriding the setting 
 <strong>neo4jInternalName</strong> will basically create the node with of type specified. In short, the name of your company
@@ -232,7 +232,7 @@ will appear for all the nodes (projects) that are internal. In this example the 
 
 <p>I strongly advise you to ovveride this settings in your definition, considering that the default is set to <em>&quot;Company&quot;</em></p>
 
-<h4>neo4jInternalOrgs</h4>
+<h3>neo4jInternalOrgs</h3>
 
 <p>Reading the previous paragraph you might have asked yourself how can you tell the plugin what is an internal node and what is not.
 The <strong>neo4jInternalOrgs</strong> does exactly that; it is a Sequence of string that match your organization name(s). In the example I basically
@@ -244,7 +244,7 @@ just want to tell the plugin that every project that start with the organization
 for the organizations, which are unique, therefore the plugin matches everything that <em>startsWith</em> &quot;a.company&quot; as opposed to
 <em>contains</em>. Also note that by default this sequence is empty.</p>
 
-<h4>neo4jTagsLabels</h4>
+<h3>neo4jTagsLabels</h3>
 
 <p>You might have noticed that in the picture there are different types of Internal nodes, such as web (purple) and client (blue). 
 Forget about the colors for the moment (we will talk about it later in the usage section), the important bit is that the plugin

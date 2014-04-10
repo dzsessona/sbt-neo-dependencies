@@ -16,13 +16,38 @@ html {
 }
 
 body {
+    
+  font-family: 'Open Sans', sans-serif;
   background-color: #FFF;
-  font: 13.34px Helvetica, Arial, sans-serif;
-  font-size: small;
+  //font: 13.34px Helvetica, Arial, sans-serif;
+  //font-size: small;
   text-align: center;
   /* marging for footer */
   margin-bottom: 60px;
 }
+h1, h2, h3, h4, h5, h6 {
+font-family: 'Montserrat', sans-serif;
+}
+
+/*h2 {
+    font-weight: bold;
+    color: #555555;
+    font-size:35px;
+    text-transform:uppercase;
+}*/
+
+h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px 0 15px;
+    color: #555555;
+}/*
+
+p {
+    color:#6E6E6E;
+    margin: 0 0 20px;
+    font-size:14px;
+}*/
 
 #footer {
   border-top: 1px solid #e5e5e5;

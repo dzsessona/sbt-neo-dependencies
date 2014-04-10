@@ -82,11 +82,11 @@ tasks available in the sbt console by running
 
 <img src="{{ site.url }}/assets/img/taskv.png" width="600">
 
-#### neo4jShowDependencies
+### neo4jShowDependencies
 This task will print on screen the cypher statements that would be used to create the nodes (projects) and relations (dependencies) in the neo4j database. 
 This task is expecially useful for development, but also is a good way to explore how the graph would be generated for a particular project.  
 
-#### neo4jWriteDependencies
+### neo4jWriteDependencies
 This task will print on file the cypher statements that would be used to create the nodes (projects) and relations (dependencies) in the neo4j database. 
 Calling this task just create the file, the location of which is defined in the plugin itself as:
 
@@ -94,7 +94,7 @@ Calling this task just create the file, the location of which is defined in the 
 
 Also note that the task to load the dependencies **dependsOn** this task. 
 
-#### neo4jLoadDependencies
+### neo4jLoadDependencies
 This is the task that creates the nodes (projects) and relations (dependencies) in the neo4j database. 
 All it does is calling the neo4jWriteDependencies and than passing that file to the neo4j console. Because of that it assumes that 
 
@@ -119,7 +119,7 @@ The resulting graph of these two project it is in the picture below:
 
 <img src="{{ site.url }}/assets/img/reference.png" width="700">
 
-#### neo4jInternalName
+### neo4jInternalName
 
 As you can see from the picture the dependencies are divided in Internal and External. Overriding the setting 
 **neo4jInternalName** will basically create the node with of type specified. In short, the name of your company
@@ -129,7 +129,7 @@ will appear for all the nodes (projects) that are internal. In this example the 
 
 I strongly advise you to ovveride this settings in your definition, considering that the default is set to *"Company"*
 
-#### neo4jInternalOrgs
+### neo4jInternalOrgs
 
 Reading the previous paragraph you might have asked yourself how can you tell the plugin what is an internal node and what is not.
 The **neo4jInternalOrgs** does exactly that; it is a Sequence of string that match your organization name(s). In the example I basically
@@ -141,7 +141,7 @@ Note that you can add more organization names if you have more than one, and als
 for the organizations, which are unique, therefore the plugin matches everything that *startsWith* "a.company" as opposed to
 *contains*. Also note that by default this sequence is empty.
 
-#### neo4jTagsLabels
+### neo4jTagsLabels
 
 You might have noticed that in the picture there are different types of Internal nodes, such as web (purple) and client (blue). 
 Forget about the colors for the moment (we will talk about it later in the usage section), the important bit is that the plugin
