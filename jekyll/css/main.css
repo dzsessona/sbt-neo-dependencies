@@ -29,25 +29,47 @@ h1, h2, h3, h4, h5, h6 {
 font-family: 'Montserrat', sans-serif;
 }
 
-/*h2 {
+h2 {
     font-weight: bold;
     color: #555555;
-    font-size:35px;
-    text-transform:uppercase;
-}*/
+    font-size:30px;
+}
+
+.frontTitle {
+font: 36px Helvetica, Arial, sans-serif;
+text-align: center;
+color: whitesmoke;
+}
+
+.center {
+text-align: center;
+}
 
 h3 {
     font-size: 20px;
     font-weight: bold;
     margin: 20px 0 15px;
     color: #555555;
-}/*
+}
 
 p {
-    color:#6E6E6E;
-    margin: 0 0 20px;
+    text-align: justify;
+    line-height: 18px;
+    color:#5C5C5C;
+    margin: 0 0 10px;
     font-size:14px;
-}*/
+}
+
+li {
+    text-align: justify;
+    line-height: 18px;
+    color:#5C5C5C;
+    font-size:14px;
+}
+
+code {
+font-size: 80%;
+}
 
 #footer {
   border-top: 1px solid #e5e5e5;
